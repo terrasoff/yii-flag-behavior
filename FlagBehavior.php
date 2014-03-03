@@ -43,8 +43,8 @@ class FlagBehavior extends CBehavior
         $object = $this->getOwner();
         $flags = $object->{$this->fieldName};
         return $object->{$this->fieldName} = $value
-            ? $flags | $this->getFlagValue($name)
-            : $flags ^ $this->getFlagValue($name);
+            ? $flags | $this->getFlagValue($name) // set
+            : $flags ^ $this->getFlagValue($name); // unset
     }
 
     /**
@@ -95,10 +95,13 @@ class FlagBehavior extends CBehavior
      */
     public function scopeFlag($flags) {
         /** @var $object CActiveRecord */
-        $settings = $this->mergeFlags($flags);
+        $flags = $this->mergeFlags($flags);
         $object = $this->getOwner();
-        $object->getDbCriteria()->addCondition('settings & :settings = :settings');
-        $object->getDbCriteria()->params[':settings'] = $settings;
+        $object->getDbCriteria()->mergeWith(array(
+            'condition'=>$this->fieldName.' & :flag = :flag',
+            'params' => array(':flag' => $flags),
+        ));
+        $object->getDbCriteria()->params[':flag'] = $flags;
 
         return $object;
     }
