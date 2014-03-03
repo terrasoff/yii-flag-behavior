@@ -88,4 +88,31 @@ class FlagBehavior extends CBehavior
         return pow(2,$this->getFlagIndex($name));
     }
 
+    /**
+     * Search by flags
+     * @param $flags
+     * @return CActiveRecord
+     */
+    public function scopeFlag($flags) {
+        /** @var $object CActiveRecord */
+        $settings = $this->mergeFlags($flags);
+        $object = $this->getOwner();
+        $object->getDbCriteria()->addCondition('settings & :settings = :settings');
+        $object->getDbCriteria()->params[':settings'] = $settings;
+
+        return $object;
+    }
+
+    /**
+     * Get combined flags value
+     * @param $flags
+     * @return int
+     */
+    private function mergeFlags($flags) {
+        $flags = array_intersect_key($this->flags, array_flip($flags));
+        return (int)array_reduce($flags, function($result, $item) {
+            return $result = $result | pow(2,$item);
+        });
+    }
+
 }
