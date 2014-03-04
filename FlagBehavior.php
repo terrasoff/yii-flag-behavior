@@ -96,7 +96,7 @@ class FlagBehavior extends CBehavior
      * @param $flags
      * @return CActiveRecord
      */
-    public function scopeFlag($flags) {
+    public function scopeFlags($flags) {
         /** @var $object CActiveRecord */
         $flags = $this->mergeFlags($flags);
         $object = $this->getOwner();

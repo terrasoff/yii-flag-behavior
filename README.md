@@ -1,7 +1,7 @@
 # Description
 Usually model contains flag fields. For example model User could contain fields
 
-* <b></b>enabled - is user enabled?
+* <b>enabled</b> - is user enabled?
 * <b>activated</b> - is user activated?
 * <b>baned</b> - is user baned?
 * ...
@@ -60,7 +60,7 @@ Using behavior's scope:
 		User::SETTINGS_ENABLED,
 		User::SETTINGS_ACTVATED,
 	);
-    $user = User::model()->scopeFlag($settings)->findAll();
+    $user = User::model()->scopeFlags($settings)->findAll();
 
 # Roadway
 
