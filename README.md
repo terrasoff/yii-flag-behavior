@@ -1,9 +1,9 @@
 # Description
 Usually model contains flag fields. For example model User could contain fields
 
-* *enabled* - is user enabled?
-* *activated* - is user activated?
-* *baned* - is user baned?
+* <b></b>enabled - is user enabled?
+* <b>activated</b> - is user activated?
+* <b>baned</b> - is user baned?
 * ...
 
 I've seen many people use multiple fields to store this information.
@@ -51,9 +51,11 @@ In case of MySQL we could use INT, BIGINT or BIT(N) type or  of fields. So we ca
 
 How to search users using flags? For example find users who baned;
 Mask is 100. Now compare mask and settings field:
+
     SELECT * FROM User WHERE flags & mask = mask
 
 Using behavior's scope:
+
 	$settings = array(
 		User::SETTINGS_ENABLED,
 		User::SETTINGS_ACTVATED,
