@@ -6,31 +6,19 @@
 class FlagBehavior extends CBehavior
 {
     public $errorCode = '500';
+
     /**
      * Model's bit field name
-     * Use type BIT(N) for MySQL
+     * Use type INT|BIGINT|BIT(N) for MySQL
      * @var string
      */
     public $fieldName = 'flags';
 
     /**
      * Flags collection,
-     * ---
-     * For example:
-
      *
-     * array(
-     *      User::SETTINGS_ENABLED => 0,
-     *      User::SETTINGS_ACTVATED => 1,
-     *      User::SETTINGS_BANED => 2,
-     *      ...
-     * )
-     * ---
-     * WARNING! The order of flags is very important.
-     * Once defined never change it!.
-     *
-     * Values 0,1,2... are bit's order.
-     * Trying to get better perfomance keys are strings (not to use array_search)
+     * WARNING!
+     * Once defined flag's index (bit's order) never change it!.
      * @var array
      */
     public $flags = array();
