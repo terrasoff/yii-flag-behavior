@@ -1,6 +1,6 @@
 <?php
 /**
- * Bits data operations
+ * Bits data
  * @author Tarasov Konstantin
  */
 class FlagBehavior extends CBehavior
@@ -17,6 +17,8 @@ class FlagBehavior extends CBehavior
      * Flags collection,
      * ---
      * For example:
+
+     *
      * array(
      *      User::SETTINGS_ENABLED => 0,
      *      User::SETTINGS_ACTVATED => 1,
@@ -49,6 +51,7 @@ class FlagBehavior extends CBehavior
 
     /**
      * Unset specified flag value
+     * Could use both clearFlag(User::SETTINGS_ENABLED) or setFlag(User::SETTINGS_ENABLED, false)
      * @param $name
      * @return int
      */
@@ -112,9 +115,8 @@ class FlagBehavior extends CBehavior
      * @return int
      */
     private function mergeFlags($flags) {
-        $flags = array_intersect_key($this->flags, array_flip($flags));
-        return (int)array_reduce($flags, function($result, $item) {
-            return $result = $result | pow(2,$item);
+        return (int)array_reduce($flags, function($result, $value) {
+            return $result = $result | pow(2, $value);
         });
     }
 
