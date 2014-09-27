@@ -32,9 +32,20 @@ class FlagBehavior extends CBehavior
     public function setFlag($name, $value = true) {
         $object = $this->getOwner();
         $flags = $object->{$this->fieldName};
-        return $object->{$this->fieldName} = $value
-            ? $flags | $this->getFlagValue($name) // set
-            : $flags ^ $this->getFlagValue($name); // unset
+        $flagValue = $this->getFlagValue($name);
+        // set
+        if ($value) {
+            $object->{$this->fieldName} = $flags | $flagValue;
+        }
+        // unset
+        else
+        {
+            $object->{$this->fieldName} = $flags & $flagValue
+                ? $flags ^ $flagValue
+                : $flags ^ $flagValue ^ $flagValue;
+        }
+
+        return $object;
     }
 
     /**
