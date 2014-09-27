@@ -12,7 +12,7 @@ class FlagBehavior extends CBehavior
      * Use type INT|BIGINT|BIT(N) for MySQL
      * @var string
      */
-    public $fieldName = 'flags';
+    public $fieldName = 'settings';
 
     /**
      * Flags collection,
@@ -66,7 +66,7 @@ class FlagBehavior extends CBehavior
      */
     public function getFlagIndex($name) {
         if (!isset($this->flags[$name]))
-            throw new CException($this->errorCode, "Model flag {$name} not found");
+            throw new \Exception("Model flag {$name} not found");
         return $this->flags[$name];
     }
 
