@@ -3,7 +3,7 @@
 require_once __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'FlagBehavior.php';
 
 /**
- * Bits data
+ * Mock class for testing
  * @author Tarasov Konstantin
  */
 class MockFlagBehavior extends FlagBehavior

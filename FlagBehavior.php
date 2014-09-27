@@ -9,7 +9,7 @@ class FlagBehavior extends CBehavior
 
     /**
      * Model's bit field name
-     * Use type INT|BIGINT|BIT(N) for MySQL
+     * Use type INT|BIGINT for MySQL
      * @var string
      */
     public $fieldName = 'settings';
