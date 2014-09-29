@@ -42,7 +42,7 @@ class FlagBehavior extends CBehavior
         {
             $object->{$this->fieldName} = $flags & $flagValue
                 ? $flags ^ $flagValue
-                : $flags ^ $flagValue ^ $flagValue;
+                : $flags;
         }
 
         return $object;
