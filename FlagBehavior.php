@@ -29,7 +29,8 @@ class FlagBehavior extends CBehavior
      * @param bool $value
      * @return int new field value
      */
-    public function setFlag($name, $value = true) {
+    public function setFlag($name, $value = true)
+    {
         $object = $this->getOwner();
         $flags = $object->{$this->fieldName};
         $flagValue = $this->getFlagValue($name);
@@ -54,7 +55,8 @@ class FlagBehavior extends CBehavior
      * @param $name
      * @return int
      */
-    public function clearFlag($name) {
+    public function clearFlag($name)
+    {
         return $this->setFlag($name, false);
     }
 
@@ -63,7 +65,8 @@ class FlagBehavior extends CBehavior
      * @param $name
      * @return bool
      */
-    public function hasFlag($name) {
+    public function hasFlag($name)
+    {
         $object = $this->getOwner();
         $flag = $this->getFlagValue($name);
         return ($object->{$this->fieldName} & $flag) === $flag;
@@ -75,7 +78,8 @@ class FlagBehavior extends CBehavior
      * @return int
      * @throws CException
      */
-    public function getFlagIndex($name) {
+    public function getFlagIndex($name)
+    {
         if (!isset($this->flags[$name]))
             throw new \Exception("Model flag {$name} not found");
         return $this->flags[$name];
@@ -86,7 +90,8 @@ class FlagBehavior extends CBehavior
      * @param $name
      * @return number
      */
-    public function getFlagValue($name) {
+    public function getFlagValue($name)
+    {
         return pow(2,$this->getFlagIndex($name));
     }
 
@@ -95,9 +100,13 @@ class FlagBehavior extends CBehavior
      * @param $flags
      * @return CActiveRecord
      */
-    public function scopeFlags($flags) {
+    public function scopeFlags($flags)
+    {
+        if (is_array($flags)) {
+            $flags = $this->mergeFlags($flags);
+        }
+
         /** @var $object CActiveRecord */
-        $flags = $this->mergeFlags($flags);
         $object = $this->getOwner();
         $object->getDbCriteria()->mergeWith(array(
             'condition'=>$this->fieldName.' & :flag = :flag',
@@ -108,12 +117,26 @@ class FlagBehavior extends CBehavior
         return $object;
     }
 
+    public function getFlagCriteria($flags)
+    {
+        if (is_array($flags)) {
+            $flags = $this->mergeFlags($flags);
+        }
+
+        $criteria = new CDbCriteria();
+        $criteria->addCondition($this->fieldName . ' & :flag = :flag');
+        $criteria->params[':flag'] = $flags;
+
+        return $criteria;
+    }
+
     /**
      * Get combined flags value
      * @param $flags
      * @return int
      */
-    private function mergeFlags($flags) {
+    private function mergeFlags($flags)
+    {
         return (int)array_reduce($flags, function($result, $value) {
             return $result = $result | pow(2, $value);
         });
