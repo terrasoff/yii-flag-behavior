@@ -117,15 +117,20 @@ class FlagBehavior extends CBehavior
         return $object;
     }
 
+    /**
+     * @param array|string $flags
+     * @return CDbCriteria
+     */
     public function getFlagCriteria($flags)
     {
         if (is_array($flags)) {
             $flags = $this->mergeFlags($flags);
         }
 
+        $paramId = ':flag' . ++CDbCriteria::$paramCount;
         $criteria = new CDbCriteria();
-        $criteria->addCondition($this->fieldName . ' & :flag = :flag');
-        $criteria->params[':flag'] = $flags;
+        $criteria->addCondition($this->fieldName . " & {$paramId} = {$paramId}");
+        $criteria->params[$paramId] = $flags;
 
         return $criteria;
     }
